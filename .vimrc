@@ -1,9 +1,11 @@
 set number
 set relativenumber
 set incsearch
-set syntax
+
+let python_highlight_all=1
+
 set nowrap
-set scrolloff=10
+set scrolloff=15
 
 set tabstop=4
 set shiftwidth=4
@@ -32,6 +34,11 @@ nnoremap gr :LspReferences<Cr>
 " quickfix list
 nnoremap <leader>c :cn<Cr>
 
+" page up down center
+nnoremap <C-u> <C-u>zz
+nnoremap <C-d> <C-d>zz
+
+
 
 "
 " install vim-plug if not installed
@@ -41,6 +48,7 @@ if empty(glob(data_dir . '/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
+let g:everforest_transparent_background=2
 
 
 call plug#begin()
@@ -70,14 +78,33 @@ Plug 'junegunn/fzf.vim'
 
 " colorscheme
 Plug 'sainnhe/everforest'
+Plug 'jnurmine/Zenburn'
+
 
 " autocomplete
 Plug 'prabirshrestha/asyncomplete.vim'
 
+" syntax highlighting
+Plug 'vim-syntastic/syntastic'
+Plug 'nvie/vim-flake8'
+
+" nerdtree
+Plug 'preservim/nerdtree'
+ 
+
+
 call plug#end()
 
-let g:everforest_transparent_background=1
+if has('termguicolors')
+	set termguicolors
+endif
+
 set background=dark
 colorscheme everforest
+syntax on
 
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+let g:lsp_document_highlight_enabled=0
+let g:lsp_diagnostics_highlights_enabled=0
+
+
