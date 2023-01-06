@@ -2,6 +2,8 @@ set number
 set relativenumber
 set incsearch
 set syntax
+set nowrap
+set scrolloff=10
 
 set tabstop=4
 set shiftwidth=4
@@ -20,42 +22,18 @@ nnoremap <leader>l :Lex<Cr>:vertical resize 45<Cr>
 " lsp
 " let g:lsc_server_commands = { 'python': 'pyright' }
 
-nnoremap gd :ALEGoToDefinition<Cr>
-nnoremap gr :ALEFindReferences<Cr>
-let g:airline#extensions#ale#enabled = 1
-let g:ale_set_highlights = 1
+" FZF maps
+nnoremap <leader>p :GFiles<Cr>
+nnoremap <C-p> :Files<Cr>
+
+nnoremap gd :LspDefinition<Cr>
+nnoremap gr :LspReferences<Cr>
+
+" quickfix list
+nnoremap <leader>c :cn<Cr>
 
 
-" Use all the defaults (recommended):
-" let g:lsc_auto_map = v:true
 "
-" " Apply the defaults with a few overrides:
-" let g:lsc_auto_map = {'defaults': v:true, 'FindReferences': '<leader>r'}
-"
-"" Setting a value to a blank string leaves that command unmapped:
-" let g:lsc_auto_map = {'defaults': v:true, 'FindImplementations': ''}
-
-" ... or set only the commands you want mapped without defaults.
-" " Complete default mappings are:
-" let g:lsc_auto_map = {
-"     \ 'GoToDefinition': '<C-]>',
-"         \ 'GoToDefinitionSplit': ['<C-W>]', '<C-W><C-]>'],
-"             \ 'FindReferences': 'gr',
-"                 \ 'NextReference': '<C-n>',
-"                     \ 'PreviousReference': '<C-p>',
-"                         \ 'FindImplementations': 'gI',
-"                             \ 'FindCodeActions': 'ga',
-"                                 \ 'Rename': 'gR',
-"                                     \ 'ShowHover': v:true,
-"                                         \ 'DocumentSymbol': 'go',
-"                                             \ 'WorkspaceSymbol': 'gS',
-"                                                 \ 'SignatureHelp': 'gm',
-"                                                     \ 'Completion':
-"                                                     'completefunc',
-"                                                         \}
-" }
-" "
-
 " install vim-plug if not installed
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
 if empty(glob(data_dir . '/autoload/plug.vim'))
@@ -64,14 +42,8 @@ if empty(glob(data_dir . '/autoload/plug.vim'))
 endif
 
 
+
 call plug#begin()
-" The default plugin directory will be as follows:
-"   - Vim (Linux/macOS): '~/.vim/plugged'
-"   - Vim (Windows): '~/vimfiles/plugged'
-"   - Neovim (Linux/macOS/Windows): stdpath('data') . '/plugged'
-" You can specify a custom plugin directory by passing it as the argument
-"   - e.g. `call plug#begin('~/.vim/plugged')`
-"   - Avoid using standard Vim directory names like 'plugin'
 
 " Make sure you use single quotes
 
@@ -83,9 +55,29 @@ Plug 'jiangmiao/auto-pairs'
 
 " surround change, etc
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
 
 " lsp
 " Plug 'natebosch/vim-lsc'
-Plug 'dense-analysis/ale'
+" Plug 'dense-analysis/ale'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
+
+
+" fzf
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
+" colorscheme
+Plug 'sainnhe/everforest'
+
+" autocomplete
+Plug 'prabirshrestha/asyncomplete.vim'
 
 call plug#end()
+
+let g:everforest_transparent_background=1
+set background=dark
+colorscheme everforest
+
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
