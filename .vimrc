@@ -1,7 +1,6 @@
 set number
 set relativenumber
 set incsearch
-
 let python_highlight_all=1
 
 set nowrap
@@ -9,14 +8,13 @@ set scrolloff=15
 
 set tabstop=4
 set shiftwidth=4
-let &t_SI = "\e[6 q"
-let &t_EI = "\e[2 q"
-
 
 let mapleader = ' '
 
+let &t_SI = "\e[6 q"
+let &t_EI = "\e[2 q"
 
-" REMAPS
+"REMAPS
 inoremap jk <Esc>:w<Cr>
 nnoremap <leader>e :Ex<Cr>
 nnoremap <leader>l :Lex<Cr>:vertical resize 45<Cr>
@@ -35,16 +33,24 @@ nnoremap gr :LspReferences<Cr>
 nnoremap <leader>c :cn<Cr>
 
 " page up down center
-nnoremap <C-u> <C-u>zz
-nnoremap <C-d> <C-d>zz
+nnoremap <C-u> 20k zz
+nnoremap <C-d> 20jzz
 
+" move vim screens
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
 
+" nerdtree
+nnoremap <leader>e :NERDTree<Cr>
+let NERDTreeShowHidden=1
 
 "
 " install vim-plug if not installed
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
 if empty(glob(data_dir . '/autoload/plug.vim'))
-  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  oilent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
@@ -102,6 +108,9 @@ endif
 set background=dark
 colorscheme everforest
 syntax on
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+set termguicolors
 
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 let g:lsp_document_highlight_enabled=0
